@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>电商平台注册页面</title>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/login.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../images/logo2.png" type="image/x-icon"/>
+</head>
+<body>
+
+<div class="loginNode">
+    <div class="loginLogo">
+        <img src="../images/logo2.png">
+    </div>
+    <div class="loginTopText"><strong>Register</strong></div>
+    <div class="loginUserText">Username</div>
+    <div class="loginUserNode">
+        <input type="text" name="userName" class="userInput loginName" placeholder="Username">
+    </div>
+    <div class="loginError loginUserName">
+        <p></p>
+    </div>
+    <div class="loginUserText">Password</div>
+    <div class="loginUserNode">
+        <input type="password" name="userPass" class="userInput loginPass" placeholder="Password">
+    </div>
+    <div class="loginError loginUserPass">
+        <p></p>
+    </div>
+    <div class="loginUserText">Confirm&nbsp;password</div>
+    <div class="loginUserNode">
+        <input type="password" name="userRePass" class="userInput" placeholder="Confirm password">
+    </div>
+    <div class="loginError loginUserRePass">
+        <p></p>
+    </div>
+    <div class="loginUserNode">
+        <button class="registerbtn">Sign up for XXX</button>
+    </div>
+    <div class="loginSet">
+        <a href="login.html">Sign in for XXX</a>
+    </div>
+</div>
+<!--加密解密-->
+<script type="text/javascript" src="../js/aes.js"></script>
+<script type="text/javascript" src="../js/encryptanddecrypt.js"></script>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="../js/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="../js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function addLoginNode(str){
+        if(str == ""){
+            $(".loginNode").css("height",parseInt($(".loginNode").css("height").split("p")[0])+30+'px');
+        }
+    }
+    function deleteLoginNode(str){
+        if(str != ""){
+            $(".loginNode").css("height",parseInt($(".loginNode").css("height").split("p")[0])-30+'px');
+        }
+    }
+    $(function () {
+        $(".loginUserName p").html("");
+        $(".loginUserPass p").html("");
+        $(".loginUserRePass p").html("");
+        $("input[name=userName]").change(function(){
+            var regName =  /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/;
+            if(!regName.test($("input[name=userName]").val())){
+                addLoginNode($(".loginUserName p").text());
+                $(".loginUserName p").html("只能输入5-20个以字母开头、可带数字、“_”、“.”的字串");
+                $(".loginUserName").show();
+            }else{
+                $(".loginUserName").hide();
+                deleteLoginNode($(".loginUserName p").text());
+                $(".loginUserName p").html("");
+            }
+        });
+        $("input[name=userPass]").change(function(){
+            var regName =  /^(\w){6,20}$/;
+            if(!regName.test($("input[name=userPass]").val())){
+                addLoginNode($(".loginUserPass p").text());
+                $(".loginUserPass p").html("只能输入6-20个字母、数字、下划线");
+                $(".loginUserPass").show();
+            }else{
+                $(".loginUserPass").hide();
+                deleteLoginNode($(".loginUserPass p").text());
+                $(".loginUserPass p").html("");
+            }
+        });
+        $("input[name=userRePass]").change(function(){
+            if($("input[name=userPass]").val()!=$("input[name=userRePass]").val()){
+                addLoginNode($(".loginUserRePass p").text());
+                $(".loginUserRePass p").html("两次输入密码不一致");
+                $(".loginUserRePass").show();
+            }else{
+                $(".loginUserRePass").hide();
+                deleteLoginNode($(".loginUserRePass p").text());
+                $(".loginUserRePass p").html("");
+            }
+        });
+        $(".registerbtn").on("click", function(){
+            var loginName=$(".loginName").val();
+            debugger;
+            var loginPass=$(".loginPass").val();
+            var encryptName=encrypt(loginName);
+            console.log(encryptName);
+            var decryptName=decrypt(encryptName);
+            console.log(decryptName);
+        });
+    })
+</script>
+</body>
+</html>
